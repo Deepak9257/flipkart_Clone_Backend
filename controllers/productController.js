@@ -15,13 +15,14 @@ const productController = {
 
         const filePath = fileArray.map(item => item.path);
 
+        console.log(filePath);
+
         const { name, price, description, inStock, category } = req.body;
         
         if (!name || !price || !description || !inStock || !category) throw new MyError(400, "Please fill all the required fields.") 
 
         const exist = Product.findOne({name});
         if(!exist)throw new MyError(400,"Product already exists")
-
 
         const imageUrl = await uploadToCloud(filePath);
 

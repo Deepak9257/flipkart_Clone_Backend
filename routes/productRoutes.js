@@ -15,6 +15,6 @@ router.put('/update/:productId', verifyToken, productController.updateProduct);
 
 // get requests
 router.get('/get', productController.getProduct);
-router.get('/getById/:productId', productController.getProductById);
+router.get('/get/:productId', productController.getProductById);
 
 module.exports = productRoutes = router;
