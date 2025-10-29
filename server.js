@@ -9,12 +9,17 @@ const authRoutes = require("./admin/authRoutes");
 const cors = require('cors')
 
 require("./database/db")
+
 const port = process.env.PORT || 5000;
 const host = process.env.HOST || "127.0.0.1"
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', // frontend URL
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(cookieParser());
@@ -30,12 +35,6 @@ app.use('/product', productRoutes);
 // admin routes
 app.use('/admin', authRoutes)
 
-//error
-app.use('/err', wrapAsync(
-    async (req, res, next) => asdfas
-))
-
-
 
 // page not found error
 app.use((req, res, next) => {
@@ -48,9 +47,7 @@ app.use(handleError);
 
 
 app.listen(port, host, () => {
-    console.log("server is working at:", port)
+    console.log(`server is working at: http://${host}:${port}`)
 });
-
-
 
 

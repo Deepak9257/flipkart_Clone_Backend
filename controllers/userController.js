@@ -142,7 +142,7 @@ const userController = {
                         secure: true,
                         sameSite: 'strict'
                 });
-                
+                        
                 res.clearCookie('X-csrf-token', {
                         secure: true,
                         sameSite: 'strict'

@@ -4,37 +4,39 @@ const { generateJwt } = require("../helpers/token");
 const { wrapAllAsync } = require("../helpers/wrapAsync");
 const userModel = require("../models/userModel");
 const bcrypt = require('bcrypt');
-const crypto = require("crypto")
+
 
 const authController = {
 
-    async login(req,res){
+    async login(req, res) {
 
-        const {email, password} = req.body;
+        const { email, password } = req.body;
 
-        const exist = await userModel.findOne({email, role:'admin'});
-        if(!exist) throw new MyError(400,"Invalid Email or Password");
+        const exist = await userModel.findOne({ email, role: 'admin' });
+        if (!exist) throw new MyError(400, "Invalid Email or Password");
 
-        const compare = await bcrypt.compare(password,exist.password);
-        if(!compare) throw new MyError(400,"Invalid Email or Password");
+        const compare = await bcrypt.compare(password, exist.password);
+        if (!compare) throw new MyError(400, "Invalid Email or Password");
 
         const token = generateJwt(exist);
 
-        res.cookie("token",token,{
-            secure:true,
-            sameSite:'strict',
-            httpOnly:true
+        res.cookie("token", token, {
+            httpOnly: true,
         });
 
-        const csrfToken = generateJwt(crypto.randomBytes(32).toString('base64url'));
+        return sendRes(res, 200, "user logined successfully")
+    },
 
-        res.cookie("X-csrf-token", csrfToken,{
-            httpOnly:false,
-            sameSite:'strict',
-            secure:true
-        })
+    async logout(req, res) {
+        const id = req?.user?.id;
 
-        return sendRes(res,200,"user logined successfully")
+        if (!id) throw new MyError(400, "Unauthorized action");
+
+        res.clearCookie('token', {
+            httpOnly: true,
+        });
+
+        return sendRes(res, 200, "Logout Successfully")
     }
 }
 module.exports = wrapAllAsync(authController)

@@ -15,8 +15,6 @@ const productController = {
 
         const filePath = fileArray.map(item => item.path);
 
-        console.log(filePath);
-
         const { name, price, description, inStock, category } = req.body;
         
         if (!name || !price || !description || !inStock || !category) throw new MyError(400, "Please fill all the required fields.") 
@@ -25,8 +23,6 @@ const productController = {
         if(!exist)throw new MyError(400,"Product already exists")
 
         const imageUrl = await uploadToCloud(filePath);
-
-        console.log(imageUrl)
 
         await Product.create({name, price, description, inStock, category, imageUrl});
 
@@ -60,8 +56,6 @@ const productController = {
     async getProduct(req, res) {
 
         const product = await Product.find({});
-
-        console.log(product)
 
         sendRes(res, 200, "Data fetched successfully", product)
     },
