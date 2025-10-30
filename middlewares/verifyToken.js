@@ -5,6 +5,8 @@ const { wrapAsync } = require("../helpers/wrapAsync");
 
 const verifyToken = wrapAsync((req, res, next) => {
 
+    console.log(req.cookies);
+    
     if (!req.cookies['token']) throw new MyError(400, "Unauthorized-NO TOKEN!")
 
     const token = req.cookies['token'];

@@ -29,7 +29,7 @@ const authController = {
 
     async logout(req, res) {
         const id = req?.user?.id;
-
+        
         if (!id) throw new MyError(400, "Unauthorized action");
 
         res.clearCookie('token', {
