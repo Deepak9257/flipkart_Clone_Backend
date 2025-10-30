@@ -37,6 +37,8 @@ const authController = {
 
         res.clearCookie('token', {
             httpOnly: true,
+            sameSite: 'none',
+            secure: true,     
         });
 
         return sendRes(res, 200, "Logout Successfully")
