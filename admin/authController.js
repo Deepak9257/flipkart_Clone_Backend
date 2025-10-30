@@ -22,6 +22,9 @@ const authController = {
 
         res.cookie("token", token, {
             httpOnly: true,
+            sameSite: 'none',
+            secure: true,          // must be true on Render (HTTPS)
+            maxAge: 7 * 24 * 60 * 60 * 1000, // optional: 7 days
         });
 
         return sendRes(res, 200, "user logined successfully")
@@ -29,7 +32,7 @@ const authController = {
 
     async logout(req, res) {
         const id = req?.user?.id;
-        
+
         if (!id) throw new MyError(400, "Unauthorized action");
 
         res.clearCookie('token', {
