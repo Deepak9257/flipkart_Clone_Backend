@@ -7,7 +7,11 @@ const productRoutes = require("./routes/productRoutes");
 const authRoutes = require("./admin/authRoutes");
 const cors = require('cors')
 
-require("./database/db")
+// require("./database/db")
+
+const connectDb = require('./database/db')
+
+connectDb();
 
 const port = process.env.PORT || 5000;
 const host = process.env.HOST || "127.0.0.1"
