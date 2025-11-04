@@ -2,7 +2,6 @@ const express = require("express");
 const userRoutes = require("./routes/userRoutes");
 const { handleError } = require("./middlewares/handleError");
 const MyError = require("./helpers/error");
-const { wrapAsync } = require("./helpers/wrapAsync");
 const cookieParser = require("cookie-parser");
 const productRoutes = require("./routes/productRoutes");
 const authRoutes = require("./admin/authRoutes");
@@ -35,7 +34,6 @@ app.use('/product', productRoutes);
 // admin routes
 app.use('/admin', authRoutes)
 
-
 // page not found error
 app.use((req, res, next) => {
     throw new MyError(404, "Page not found")
@@ -45,9 +43,6 @@ app.use((req, res, next) => {
 // global error handling
 app.use(handleError);
 
-
 app.listen(port, host, () => {
     console.log(`server is working at: http://${host}:${port}`)
 });
-
-
